@@ -3,10 +3,11 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { apiClient } from '@/lib/api';
+import { LoginResponse, User } from '@/lib/types';
 
 interface LoginFormProps {
   onSwitchToRegister: () => void;
-  onLoginSuccess: (token: string, user: any) => void;
+  onLoginSuccess: (token: string, user: User) => void;
 }
 
 export default function LoginForm({ onSwitchToRegister, onLoginSuccess }: LoginFormProps) {
@@ -24,7 +25,7 @@ export default function LoginForm({ onSwitchToRegister, onLoginSuccess }: LoginF
     setError('');
 
     try {
-      const data = await apiClient.login(formData.email, formData.password);
+      const data: LoginResponse = await apiClient.login(formData.email, formData.password);
       
       // Guardar token en localStorage
       localStorage.setItem('token', data.token);

@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { apiClient } from '@/lib/api';
+import { RegisterResponse } from '@/lib/types';
 
 interface RegisterFormProps {
   onSwitchToLogin: () => void;
@@ -37,8 +38,8 @@ export default function RegisterForm({ onSwitchToLogin, onRegisterSuccess }: Reg
     }
 
     try {
-      const data = await apiClient.register(formData.nombre, formData.email, formData.password);
-      onRegisterSuccess(data.message);
+      const data: RegisterResponse = await apiClient.register(formData.nombre, formData.email, formData.password);
+      onRegisterSuccess('Cuenta creada exitosamente. Por favor verifica tu email.');
     } catch (err: any) {
       setError(err.message || 'Error de conexión');
     } finally {
